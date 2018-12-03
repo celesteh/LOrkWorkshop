@@ -1,6 +1,7 @@
 NetworkManager {
 
-	var <name, <group, <netAddr, <others, <port, user_update_listeners, startup;
+	var <name, <group, <netAddr, <others, <port,
+	user_update_listeners, startup;
 
 	* new {|me, group, ip = "255.255.255.255", port|
 		^super.new.init(me, group, ip, port);
@@ -58,6 +59,7 @@ NetworkManager {
 		group = grp;
 		prt.isNil.if ({ port = NetAddr.langPort + group}, {port = prt});
 		port.postln;
+		thisProcess.openUDPPort(port);
 		netAddr = NetAddr(ip, port);
 
 		others = [];
@@ -69,7 +71,7 @@ NetworkManager {
 
 		semaphore = Semaphore(1);
 
-		this.addResp("/id", {|msg|
+		this.addResp("/id", {|msg, time, sender, port|
 
 			var person, flag;
 			person = msg[1];
@@ -85,6 +87,7 @@ NetworkManager {
 						(person.asString == colleague.asString).if ({ flag = true });
 					});
 					flag.not.if ({ // if this person is not in the others array
+						person = GroupColleague(person,sender, port);
 						others = others.add(person);
 						user_update_listeners.do({|action|
 							action.value(person);
@@ -148,15 +151,37 @@ NetworkManager {
 
 		tag = this.tag(key);
 
-		^OSCdef(key.asSymbol, func, tag, recvPort: port)
+		^OSCdef(key.asSymbol, func, tag/*, recvPort: port*/)
 	}
 }
 
+GroupColleague {
+	var <name, <netAddr;
+
+	*new{|name, hostname, port|
+		^super.new.init(name, hostname, port)
+	}
+
+	init {| na, ip, port|
+
+		name =na;
+		netAddr = NetAddr(ip, port);
+	}
+
+	asString {
+		^ name;
+	}
+
+	asSymbol {
+		^ name.asSymbol;
+	}
+
+}
 
 
 SignedChat {
 
-var win, posts, input, button, oscdef, netManager;
+	var win, posts, input, button, oscdef, netManager;
 
 
 	*new {| netManager|

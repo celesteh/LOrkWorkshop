@@ -2,12 +2,12 @@ StuckNote {
 
 	var netManager, syn, pd;
 
-	*new {
-		^super.new.init();
+	*new {|pdPort|
+		^super.new.init(pdPort);
 	}
 
 
-	init{
+	init{|pdPort=5000|
 
 		var win, makeFader, myFader, funcs, x, amp;
 
@@ -17,7 +17,7 @@ StuckNote {
 			win = Window.new("Stuck Note", Rect(128, 64, 500, 360));
 			win.view.decorator= FlowLayout(win.view.bounds, 10@10, 10@10);
 			syn = Synth(\stuck, [\amp, 0, \x, 0, \gate, 1], Server.default);
-			pd = NetAddr.new("127.0.0.1", 5000);
+			pd = NetAddr.new("127.0.0.1", pdPort);
 
 			funcs = [];
 
