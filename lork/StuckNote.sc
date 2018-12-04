@@ -79,8 +79,8 @@ StuckNote {
 			net.add_user_update_listener(this, {|person|
 				// add faders
 				AppClock.sched(0, {
-					makeFader.(person, 'x');
-					makeFader.(person, 'amp');
+					makeFader.(person.asString, 'x');
+					makeFader.(person.asString, 'amp');
 					nil;
 				});
 
