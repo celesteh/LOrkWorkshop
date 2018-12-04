@@ -89,7 +89,7 @@ NetworkManager {
 					semaphore.wait; // prevent race conditions
 					flag = false;
 					others.do({|colleague|
-						(person.asString == colleague.asString).if ({ flag = true });
+						(person.asString.compare(colleague.asString, true) == 0).if ({ flag = true });
 					});
 					flag.not.if ({ // if this person is not in the others array
 						person = GroupColleague(person,sender, port);
@@ -152,10 +152,7 @@ NetworkManager {
 		//tag.postln;
 		args.removeAt(0);
 		//(tag ++ args).postln;
-		//netAddr.sendMsg(tag, *args);
-		others.do({|user|
-			user.sendMsg(tag, *args);
-		});
+		netAddr.sendMsg(tag, *args);
 	}
 
 	addResp { |key, func|
@@ -181,15 +178,11 @@ GroupColleague {
 	}
 
 	asString {
-		^ name;
+		^ name.asString;
 	}
 
 	asSymbol {
 		^ name.asSymbol;
-	}
-
-	sendMsg {| ... args|
-		netAddr.sendMsg(*args);
 	}
 
 }
