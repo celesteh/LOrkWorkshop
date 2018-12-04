@@ -76,10 +76,10 @@ NetworkManager {
 			var person, flag;
 			person = msg[1];
 
-			msg.postln;
-			time.postln;
-			sender.postln;
-			port.postln;
+			//msg.postln;
+			//time.postln;
+			//sender.postln;
+			//port.postln;
 
 			// don't add myself
 			(person.asString != me.asString).if({
@@ -90,6 +90,8 @@ NetworkManager {
 					flag = false;
 					others.do({|colleague|
 						(person.asString.compare(colleague.asString, true) == 0).if ({ flag = true });
+						//person.postln;
+						//colleague.postln;
 					});
 					flag.not.if ({ // if this person is not in the others array
 						person = GroupColleague(person,sender, port);
