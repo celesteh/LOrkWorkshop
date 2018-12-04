@@ -76,6 +76,11 @@ NetworkManager {
 			var person, flag;
 			person = msg[1];
 
+			msg.postln;
+			time.postln;
+			sender.postln;
+			port.postln;
+
 			// don't add myself
 			(person.asString != me.asString).if({
 
@@ -107,7 +112,11 @@ NetworkManager {
 		//});
 		//tag = tag.asString ++ group;
 
-		tag = group.asString ++ "/" ++ tag;
+		tag.asString.beginsWith("/").not.if({
+			tag = "/"++ tag;
+		});
+
+		tag = "/" ++ group.asString ++  tag;
 
 		^tag.asSymbol;
 	}
@@ -165,7 +174,7 @@ GroupColleague {
 	init {| na, ip, port|
 
 		name =na;
-		netAddr = NetAddr(ip, port);
+		netAddr = NetAddr(ip.ip, port);
 	}
 
 	asString {
