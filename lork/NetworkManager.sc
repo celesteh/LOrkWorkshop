@@ -152,7 +152,10 @@ NetworkManager {
 		//tag.postln;
 		args.removeAt(0);
 		//(tag ++ args).postln;
-		netAddr.sendMsg(tag, *args);
+		//netAddr.sendMsg(tag, *args);
+		others.do({|user|
+			user.sendMsg(tag, *args);
+		});
 	}
 
 	addResp { |key, func|
@@ -183,6 +186,10 @@ GroupColleague {
 
 	asSymbol {
 		^ name.asSymbol;
+	}
+
+	sendMsg {| ... args|
+		netAddr.sendMsg(*args);
 	}
 
 }
