@@ -136,6 +136,9 @@ NetworkManager {
 		^Task({
 			inf.do({
 				netAddr.sendMsg(idtag, name);
+				others.do({|other|
+					other.netAddr.sendMsg(idtag, name);
+				});
 				5.wait;
 			});
 		})
@@ -163,6 +166,9 @@ NetworkManager {
 		args.removeAt(0);
 		//(tag ++ args).postln;
 		netAddr.sendMsg(tag, *args);
+		others.do({|other|
+			other.netAddr.sendMsg(tag, *args);
+		});
 	}
 
 	addResp { |key, func|
