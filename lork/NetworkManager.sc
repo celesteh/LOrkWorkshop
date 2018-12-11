@@ -184,6 +184,7 @@ GroupColleague {
 	init {| na, ip, port|
 
 		name =na;
+		port.isNil.if({ port = ip.port});
 		netAddr = NetAddr(ip.ip, port);
 	}
 

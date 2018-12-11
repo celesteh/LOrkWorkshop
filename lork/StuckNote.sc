@@ -11,6 +11,8 @@ StuckNote {
 
 		var win, makeFader, myFader, funcs, x, amp;
 
+		pdPort.isNil.if({ pdPort = 5000 });
+
 		netManager = NetworkManager.gui(action: {|net|
 			net.postln;
 			SignedChat(net);

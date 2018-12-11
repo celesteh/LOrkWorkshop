@@ -14,15 +14,18 @@ NetAddr.broadcastFlag = true;
 		var colleague, ip;
 
 		msg.postln;
-		(msg.size > 3).if({
+		((msg.size > 3) && msg[3].notNil).if({
 			port = msg[3];
 		});
 		(msg.size > 2).if({
 			ip = msg[2];
 			sender = NetAddr(ip, port);
-			msg = msg ++ [ip, port];
+		});
+		(msg.size <= 2).if({
+			msg = msg ++ [sender.ip, port];
 		});
 
+		msg.postln;
 
 		colleague = GroupColleague(msg[1], sender, port);
 		users.put(colleague.asSymbol, colleague);
