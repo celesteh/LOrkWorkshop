@@ -73,8 +73,16 @@ NetworkManager {
 
 		this.addResp("/id", {|msg, time, sender, port|
 
-			var person, flag;
+			var person, ip, flag;
 			person = msg[1];
+
+			(msg.size > 3).if({
+				port = msg[3];
+			});
+			(msg.size > 2).if({
+				ip = msg[2];
+				sender = NetAddr(ip, port);
+			});
 
 			//msg.postln;
 			//time.postln;
