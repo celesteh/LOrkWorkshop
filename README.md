@@ -1,3 +1,5 @@
+Moved ot codeberg: https://codeberg.org/celesteh/LOrkWorkshop
+
 # LOrkWorkshop
 Some code for running Stuck Note by Scot Gresham Lancaster
 
